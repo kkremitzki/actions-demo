@@ -12,4 +12,6 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: List installed packages
+        run: dpkg -l
       - run: echo "🍏 This job's status is ${{ job.status }}."
