@@ -5,5 +5,8 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - name: List directory files
+        run: ls "${{ github.workspace }}"
       - name: Run Python 'hello world' script
         run: python3 python/hello.py
