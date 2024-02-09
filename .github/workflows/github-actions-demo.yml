@@ -9,4 +9,4 @@ jobs:
       - name: Install apt dependencies
         run: sudo apt-get update && sudo apt-get install -y lexicon ansible
       - name: Run Ansible setup for debugging
-        run: ansible localhost -i localhost, -m setup
+        run: ansible localhost -c local -i localhost, -m setup
