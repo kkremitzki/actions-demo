@@ -6,9 +6,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run Python 'hello world' script
-        run: python3 python/hello.py
-      - name: Compile & run C 'hello world' program
-        run: |
-          gcc c/hello.c -o hello
-          ./hello
+      - name: Install Lexicon
+        run: sudo apt-get update && sudo apt-get install -y lexicon
