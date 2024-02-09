@@ -6,5 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Lexicon
-        run: sudo apt-get update && sudo apt-get install -y lexicon
+      - name: Install apt dependencies
+        run: sudo apt-get update && sudo apt-get install -y lexicon ansible
+      - name: Run Ansible setup for debugging
+        run: ansible localhost -i localhost, -m setup
