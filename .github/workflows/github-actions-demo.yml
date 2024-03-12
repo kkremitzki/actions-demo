@@ -9,6 +9,8 @@ jobs:
       - name: Update apt cache
         run: sudo apt-get update
       - name: Install apt dependencies
-        run: sudo apt-get install -y lexicon ansible python3-pymysql
+        run: sudo apt-get install -y lexicon ansible python3-pymysql virtinst
       - name: Run Ansible setup for debugging
         run: ansible localhost -c local -i localhost, -m setup
+      - name: Create QEMU image
+        run: sudo qemu-img create -f qcow2 -o preallocation=metadata,lazy_refcounts=on debian.qcow2 10G
