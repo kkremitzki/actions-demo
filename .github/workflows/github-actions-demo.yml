@@ -9,7 +9,9 @@ jobs:
       - name: Update apt cache
         run: sudo apt-get update
       - name: Install apt dependencies
-        run: sudo apt-get install -y lexicon ansible python3-pymysql virtinst
+        run: sudo apt-get install -y lexicon ansible python3-pymysql virtinst libvirt-daemon-system
+      - name: Start libvirt network
+        run: sudo virsh net-start default
       - name: Run Ansible setup for debugging
         run: ansible localhost -c local -i localhost, -m setup
       - name: Create QEMU image
