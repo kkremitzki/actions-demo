@@ -20,3 +20,20 @@ jobs:
         with:
           name: my-artifact
           path: debian.qcow2
+      - name: Run preseed install
+        run: |
+          virt-install \
+            --connect qemu:///system \
+            --network network=default,model=virtio \
+            --graphics spice \
+            --video virtio \
+            --autoconsole text \
+            --virt-type kvm \
+            --name preseed \
+            --os-variant=debian11 \
+            --location debian-12.5.0-amd64-netinst.iso \
+            --disk debian.qcow2 \
+            --ram 4096 \
+            --vcpus 2 \
+            --initrd-inject preseed.cfg \
+            --extra-args="ks=file:/preseed.cfg console=tty0 console=ttyS0,115200"
