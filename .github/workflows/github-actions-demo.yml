@@ -13,17 +13,17 @@ jobs:
         run: sudo apt-get update
       - name: Install apt dependencies
         run: sudo apt-get install -y lexicon ansible python3-pymysql virtinst libvirt-daemon-system
-      - name: Start libvirt network
-        run: sudo virsh net-start default
+      # - name: Start libvirt network
+      #   run: sudo virsh net-start default
       - name: Run Ansible setup for debugging
         run: ansible localhost -c local -i localhost, -m setup
-      - name: Create QEMU image
-        run: sudo ./create.sh
-      - name: Move installation ISO to a libvirt dir
-        run: sudo mv debian-12.5.0-amd64-netinst.iso /var/lib/libvirt/images/
-      - name: Run preseed install
-        run: sudo ./install.sh
-      - uses: actions/upload-artifact@v4
-        with:
-          name: my-artifact
-          path: /var/lib/libvirt/images/debian.qcow2
+      # - name: Create QEMU image
+      #   run: sudo ./create.sh
+      # - name: Move installation ISO to a libvirt dir
+      #   run: sudo mv debian-12.5.0-amd64-netinst.iso /var/lib/libvirt/images/
+      # - name: Run preseed install
+      #   run: sudo ./install.sh
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #     name: my-artifact
+      #     path: /var/lib/libvirt/images/debian.qcow2
