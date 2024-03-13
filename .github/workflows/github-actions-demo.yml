@@ -19,7 +19,7 @@ jobs:
       - name: Move installation ISO to a libvirt dir
         run: sudo mv debian-12.5.0-amd64-netinst.iso /var/lib/libvirt/images/
       - name: Run preseed install
-        run: ./install.sh
+        run: sudo ./install.sh
       - uses: actions/upload-artifact@v4
         with:
           name: my-artifact
