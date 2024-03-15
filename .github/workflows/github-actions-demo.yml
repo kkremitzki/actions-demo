@@ -1,6 +1,6 @@
 name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: push
+on: [push, workflow_dispatch]
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -8,19 +8,36 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: nschloe/action-cached-lfs-checkout@v1
+
+      - name: Cache ISO
+        id: cache-iso
+        uses: actions/cache@v4
+        with:
+          path: debian-12.5.0-amd64-netinst.iso
+          key: ${{ runner.os }}-iso
+
+      # TODO: Use caching for the stage which downloads the Debian install ISO
+      # URL: https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
+
+      - name: Download Debian ISO
+        if: steps.cache-iso.outputs.cache-hit != 'true'
+        run: wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
+
       - name: Update apt cache
         run: sudo apt-get update
       - name: Install apt dependencies
         run: sudo apt-get install -y lexicon ansible python3-pymysql virtinst libvirt-daemon-system
-      # - name: Start libvirt network
-      #   run: sudo virsh net-start default
-      - name: Run Ansible setup for debugging
-        run: ansible localhost -c local -i localhost, -m setup
+
+      # - name: Run Ansible setup for debugging
+      #   run: ansible localhost -c local -i localhost, -m setup
       # - name: Create QEMU image
       #   run: sudo ./create.sh
       # - name: Move installation ISO to a libvirt dir
       #   run: sudo mv debian-12.5.0-amd64-netinst.iso /var/lib/libvirt/images/
+      # - name: Debug libvirt location
+      #   run: sudo ls -la /var/lib/libvirt/images
       # - name: Run preseed install
       #   run: sudo ./install.sh
       # - uses: actions/upload-artifact@v4
