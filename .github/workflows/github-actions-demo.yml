@@ -36,6 +36,8 @@ jobs:
 
       - name: Run Ansible script with a secret
         run: ./run-ansible.sh
+        env:
+          ACTIONS_SECRET: ${{ secrets.ACTIONS_SECRET }}
 
       # - name: Run Ansible setup for debugging
       #   run: ansible localhost -c local -i localhost, -m setup
