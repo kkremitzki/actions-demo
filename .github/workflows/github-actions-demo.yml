@@ -25,10 +25,20 @@ jobs:
         if: steps.cache-iso.outputs.cache-hit != 'true'
         run: wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
 
-      - name: Update apt cache
-        run: sudo apt-get update
-      - name: Install apt dependencies
-        run: sudo apt-get install -y lexicon ansible python3-pymysql virtinst libvirt-daemon-system
+      # - name: Update apt cache
+      #   run: sudo apt-get update
+      # - name: Install apt dependencies
+      #   run: sudo apt-get install -y lexicon ansible python3-pymysql virtinst libvirt-daemon-system
+
+      # TODO: Test caching apt installation
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: lexicon ansible python3-pymysql virtinst libvirt-daemon-system
+          execute_install_scripts: true
+          version: 1.0
+
+      - name: Run Ansible script with a secret
+        run: ./run-ansible.sh
 
       # - name: Run Ansible setup for debugging
       #   run: ansible localhost -c local -i localhost, -m setup
